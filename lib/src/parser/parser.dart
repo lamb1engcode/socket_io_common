@@ -162,8 +162,7 @@ class Decoder extends EventEmitter {
     } else if (isBinary(obj) || obj is Map && obj['base64'] != null) {
       // raw binary data
       if (this.reconstructor == null) {
-        throw new UnsupportedError(
-            'got binary data when not reconstructing a packet');
+        throw new UnsupportedError('got binary data when not reconstructing a packet');
       } else {
         packet = this.reconstructor.takeBinaryData(obj);
         if (packet != null) {
@@ -237,6 +236,8 @@ class Decoder extends EventEmitter {
     // look up json data
     if (i < endLen - 1 && str[++i].isNotEmpty == true) {
       var payload = tryParse(str.substring(i));
+      print(payload);
+      print(str);
       if (isPayloadValid(p['type'], payload)) {
         p['data'] = payload;
       } else {
@@ -263,14 +264,13 @@ class Decoder extends EventEmitter {
       case DISCONNECT:
         return payload == null;
       case CONNECT_ERROR:
-        return payload is String ||
-            payload == null ||
-            payload is Map ||
-            payload is List;
+        return payload is String || payload == null || payload is Map || payload is List;
       case EVENT:
+        return payload is Map || payload is List;
       case BINARY_EVENT:
         return payload is List && payload[0] is String;
       case ACK:
+        return payload is Map || payload is List;
       case BINARY_ACK:
         return payload is List;
     }
@@ -318,8 +318,7 @@ class BinaryReconstructor {
     this.buffers.add(binData);
     if (this.buffers.length == this.reconPack['attachments']) {
       // done with buffer list
-      var packet = Binary.reconstructPacket(
-          this.reconPack, this.buffers.cast<List<int>>());
+      var packet = Binary.reconstructPacket(this.reconPack, this.buffers.cast<List<int>>());
       this.finishedReconstruction();
       return packet;
     }
