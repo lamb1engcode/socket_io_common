@@ -147,6 +147,7 @@ class Decoder extends EventEmitter {
    */
   add(obj) {
     var packet;
+    print("OBJ: ${obj.toString()}");
     if (obj is String) {
       packet = decodeString(obj);
       if (BINARY_EVENT == packet['type'] || BINARY_ACK == packet['type']) {
@@ -187,6 +188,7 @@ class Decoder extends EventEmitter {
    */
 
   static decodeString(String str) {
+    print("DECODE STRING: $str");
     var i = 0;
     var endLen = str.length - 1;
     // look up type
@@ -238,6 +240,8 @@ class Decoder extends EventEmitter {
     // look up json data
     if (i < endLen - 1 && str[++i].isNotEmpty == true) {
       var payload = tryParse(str.substring(i));
+      print('LOOP $i: ${payload.toString()}');
+      print(p);
       if (isPayloadValid(p['type'], payload)) {
         p['data'] = payload;
       } else {
