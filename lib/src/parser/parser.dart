@@ -61,10 +61,10 @@ class Encoder {
     }
 
     if (EVENT == obj['type'] || ACK == obj['type']) {
-      if (hasBinary(obj)) {
-        obj['type'] = obj['type'] == EVENT ? BINARY_EVENT : BINARY_ACK;
-        return encodeAsBinary(obj);
-      }
+      // if (hasBinary(obj)) {
+      //   obj['type'] = obj['type'] == EVENT ? BINARY_EVENT : BINARY_ACK;
+      //   return encodeAsBinary(obj);
+      // }
     }
     return [encodeAsString(obj)];
   }
