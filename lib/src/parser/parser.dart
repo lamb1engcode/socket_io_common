@@ -60,8 +60,8 @@ class Encoder {
       _logger.fine('encoding packet $obj');
     }
 
-    obj['type'] = obj['type'] == EVENT ? EVENT : BINARY_ACK;
-    return encodeAsString(obj);
+    // obj['type'] = obj['type'] == EVENT ? EVENT : BINARY_ACK;
+    return [encodeAsString(obj)];
   }
 
   /**
