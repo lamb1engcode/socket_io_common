@@ -67,6 +67,8 @@ class Encoder {
         return encodeAsBinary(obj);
       }
     }
+
+    print('ENCODE: ' + [encodeAsString(obj)].toString());
     return [encodeAsString(obj)];
   }
 
