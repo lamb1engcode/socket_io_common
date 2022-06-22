@@ -263,15 +263,9 @@ class Decoder extends EventEmitter {
         return payload == null;
       case CONNECT_ERROR:
         return payload is String || payload == null || payload is Map || payload is List;
-      case EVENT:
-        return payload == null || payload is Map;
-      case BINARY_EVENT:
-        return payload == null || payload is Map;
-      case ACK:
-        return payload == null || payload is Map;
-      case BINARY_ACK:
-        return payload is List;
     }
+
+     return true;
   }
 
 /**
