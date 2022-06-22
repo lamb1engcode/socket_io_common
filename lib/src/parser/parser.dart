@@ -59,12 +59,14 @@ class Encoder {
       _logger.fine('encoding packet $obj');
     }
 
-    // if (EVENT == obj['type'] || ACK == obj['type']) {
-    //   if (hasBinary(obj)) {
-    //     obj['type'] = obj['type'] == EVENT ? BINARY_EVENT : BINARY_ACK;
-    //     return encodeAsBinary(obj);
-    //   }
-    // }
+    print(obj.toString());
+    if (EVENT == obj['type'] || ACK == obj['type']) {
+      if (hasBinary(obj)) {
+        print('HAS BINARY');
+        obj['type'] = obj['type'] == EVENT ? BINARY_EVENT : BINARY_ACK;
+        return encodeAsBinary(obj);
+      }
+    }
     return [encodeAsString(obj)];
   }
 
@@ -263,9 +265,13 @@ class Decoder extends EventEmitter {
         return payload == null;
       case CONNECT_ERROR:
         return payload is String || payload == null || payload is Map || payload is List;
+      case EVENT:
+      case BINARY_EVENT:
+        return payload is List && payload[0] is String;
+      case ACK:
+      case BINARY_ACK:
+        return payload is List;
     }
-
-     return true;
   }
 
 /**
